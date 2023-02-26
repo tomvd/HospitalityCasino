@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <ThingDef Name="HC_SlotMachineBase" ParentName="BuildingBase" Abstract="True">
+    <castEdgeShadows>true</castEdgeShadows>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <canOverlapZones>false</canOverlapZones>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <placeWorkers>
+        <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <rotatable>true</rotatable>
+    <fillPercent>0.40</fillPercent>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <socialPropernessMatters>true</socialPropernessMatters>  
+    <thingCategories>
+        <li>BuildingsJoy</li>
+      </thingCategories>
+      <building>
+        <joyKind>Gaming_Cerebral</joyKind>
+      </building>
+      <costList>
+        <Steel>80</Steel>
+        <ComponentIndustrial>5</ComponentIndustrial>
+      </costList>
+      <statBases>
+        <MaxHitPoints>450</MaxHitPoints>
+        <WorkToBuild>10000</WorkToBuild>
+        <Mass>10</Mass>
+        <Flammability>1.0</Flammability>
+        <JoyGainFactor>1.3</JoyGainFactor>
+        <MarketValue>2500</MarketValue>
+      </statBases>
+      <designationCategory>Joy</designationCategory>      
+      <researchPrerequisites>
+        <li>MicroelectronicsBasics</li>
+      </researchPrerequisites>
+      <constructionSkillPrerequisite>7</constructionSkillPrerequisite>      
+  </ThingDef>
+
+  <ThingDef ParentName="HC_SlotMachineBase">
+    <defName>HC_SlotMachineRed</defName>
+    <label>Rim n Reels</label>
+    <description>Classic slots, with a jackpot capped to 10x stake.</description>
+    <graphicData>
+        <texPath>Things/Building/SlotMachineRed</texPath>
+        <graphicClass>Graphic_Multi</graphicClass>
+        <shaderType>CutoutComplex</shaderType>
+        <damageData>
+          <rect>(0.05,0.1,0.9,0.9)</rect>
+          <cornerTL>Damage/Corner</cornerTL>
+          <cornerTR>Damage/Corner</cornerTR>		
+        </damageData>
+          <drawSize>(2.3,2.3)</drawSize>
+      </graphicData>
+    <uiIconPath>UI/Icons/SlotMachineRed</uiIconPath>
+    <comps>
+        <li Class="CompProperties_Power">
+            <compClass>CompPowerTrader</compClass>
+            <basePowerConsumption>120</basePowerConsumption>
+        </li>
+        <li Class="CompProperties_Glower">
+            <glowRadius>3</glowRadius>
+            <glowColor>(255, 0, 0)</glowColor>
+        </li>
+        <li Class="CompProperties_Flickable"/>
+        <li Class="CompProperties_Breakdownable"/>
+        <li Class="HospitalityCasino.CompProperties_SlotMachine">
+          <compClass>HospitalityCasino.SlotMachineComp</compClass>
+          <type>0</type>
+      </li>
+        <li Class="Hospitality.CompProperties_VendingMachine">
+          <compClass>Hospitality.CompVendingMachine</compClass>
+          <defaultPrice>1</defaultPrice>
+          <priceSteps>1</priceSteps>
+          <noToggle>true</noToggle>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HC_SlotMachineBase">
+    <defName>HC_SlotMachineGreen</defName>
+    <label>Rima Moolah</label>
+    <description>Classic slots, with a jackpot capped to 100x stake.</description>
+    <graphicData>
+        <texPath>Things/Building/SlotMachineGreen</texPath>
+        <graphicClass>Graphic_Multi</graphicClass>
+        <damageData>
+          <rect>(0.05,0.1,0.9,0.9)</rect>
+          <cornerTL>Damage/Corner</cornerTL>
+          <cornerTR>Damage/Corner</cornerTR>		
+        </damageData>
+          <drawSize>(2.3,2.3)</drawSize>
+      </graphicData>    
+    <uiIconPath>UI/Icons/SlotMachineGreen</uiIconPath>        
+    <comps>
+        <li Class="CompProperties_Power">
+            <compClass>CompPowerTrader</compClass>
+            <basePowerConsumption>120</basePowerConsumption>
+        </li>
+        <li Class="CompProperties_Glower">
+            <glowRadius>3</glowRadius>
+            <glowColor>(0, 255, 0)</glowColor>
+        </li>
+        <li Class="CompProperties_Flickable"/>
+        <li Class="CompProperties_Breakdownable"/>
+        <li Class="HospitalityCasino.CompProperties_SlotMachine">
+          <compClass>HospitalityCasino.SlotMachineComp</compClass>
+          <type>1</type>
+      </li>
+        <li Class="Hospitality.CompProperties_VendingMachine">
+          <compClass>Hospitality.CompVendingMachine</compClass>
+          <defaultPrice>1</defaultPrice>
+          <priceSteps>1</priceSteps>
+          <noToggle>true</noToggle>
+      </li>
+    </comps>
+  </ThingDef>  
+
+  <ThingDef ParentName="HC_SlotMachineBase">
+    <defName>HC_SlotMachineBlue</defName>
+    <label>Rim of Fortune</label>
+    <description>Classic slots, with an infinite progressive jackpot.</description>
+    <graphicData>
+        <texPath>Things/Building/SlotMachineBlue</texPath>
+        <graphicClass>Graphic_Multi</graphicClass>
+        <damageData>
+          <rect>(0.05,0.1,0.9,0.9)</rect>
+          <cornerTL>Damage/Corner</cornerTL>
+          <cornerTR>Damage/Corner</cornerTR>		
+        </damageData>
+          <drawSize>(2.3,2.3)</drawSize>
+      </graphicData>        
+      <uiIconPath>UI/Icons/SlotMachineBlue</uiIconPath>
+    <comps>
+        <li Class="CompProperties_Power">
+            <compClass>CompPowerTrader</compClass>
+            <basePowerConsumption>120</basePowerConsumption>
+        </li>
+        <li Class="CompProperties_Glower">
+            <glowRadius>3</glowRadius>
+            <glowColor>(0, 0, 255)</glowColor>
+        </li>
+        <li Class="CompProperties_Flickable"/>
+        <li Class="CompProperties_Breakdownable"/>
+        <li Class="HospitalityCasino.CompProperties_SlotMachine">
+          <compClass>HospitalityCasino.SlotMachineComp</compClass>
+          <type>2</type>
+      </li>
+        <li Class="Hospitality.CompProperties_VendingMachine">
+          <compClass>Hospitality.CompVendingMachine</compClass>
+          <defaultPrice>1</defaultPrice>
+          <priceSteps>1</priceSteps>
+          <noToggle>true</noToggle>
+      </li>
+    </comps>
+  </ThingDef>    
+  
+</Defs>

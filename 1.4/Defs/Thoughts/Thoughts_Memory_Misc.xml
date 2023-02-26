@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThoughtDef>
+    <defName>HC_WonSlotMachineGame</defName>
+    <durationDays>2.5</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>won a game of slots</label>
+        <description>I had some luck on the pokies!</description>
+        <baseMoodEffect>4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>HC_WonSlotMachineGameBig</defName>
+    <durationDays>2.5</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>won a big jackpot</label>
+        <description>I had some incredible luck on the pokies!</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>

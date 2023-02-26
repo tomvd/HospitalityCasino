@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <SoundDef>
+    <defName>Coin</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>coin</clipPath>
+          </li>
+        </grains>
+        <volumeRange>
+          <min>4.46512</min>        
+          <max>4.2651</max>
+        </volumeRange>     
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>MapOnlyDragSlider</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>reelstop</clipPath>
+          </li>
+        </grains>
+        <volumeRange>
+          <min>4.46512</min>        
+          <max>4.2651</max>
+        </volumeRange>     
+        <distRange>
+          <min>20</min>
+          <max>25</max>
+        </distRange>		
+      </li>
+    </subSounds>
+  </SoundDef>
+  <SoundDef>
+    <defName>MapOnlyTinyBell</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>jackpot</clipPath>
+          </li>
+        </grains>
+        <volumeRange>
+          <min>4.46512</min>        
+          <max>4.2651</max>
+        </volumeRange>     
+        <distRange>
+          <min>20</min>
+          <max>25</max>
+        </distRange>		
+      </li>
+    </subSounds>
+  </SoundDef>
+</Defs>
