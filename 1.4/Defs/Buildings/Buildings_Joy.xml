@@ -12,12 +12,12 @@
     </placeWorkers>
     <defaultPlacingRot>South</defaultPlacingRot>
     <rotatable>true</rotatable>
-    <fillPercent>0.40</fillPercent>
+    <!--<fillPercent>0.40</fillPercent> -->
     <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <altitudeLayer>Building</altitudeLayer>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,1)</interactionCellOffset>
-    <surfaceType>Item</surfaceType>
+    <!--<surfaceType>Item</surfaceType>-->
     <passability>PassThroughOnly</passability>
     <pathCost>50</pathCost>
     <minifiedDef>MinifiedThing</minifiedDef>
@@ -54,7 +54,6 @@
     <graphicData>
         <texPath>Things/Building/SlotMachineRed</texPath>
         <graphicClass>Graphic_Multi</graphicClass>
-        <shaderType>CutoutComplex</shaderType>
         <damageData>
           <rect>(0.05,0.1,0.9,0.9)</rect>
           <cornerTL>Damage/Corner</cornerTL>
