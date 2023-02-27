@@ -141,7 +141,7 @@ namespace HospitalityCasino
 			outcome = SlotGameOutcome.Undefined;
 			foreach(SlotReel reel in reels)
             {
-				reel.state = SlotReelState.Bar;
+				reel.state = reel.endState;
 				reel.UpdateDrawState();
             }
         }

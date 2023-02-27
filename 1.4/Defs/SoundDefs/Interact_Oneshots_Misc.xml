@@ -12,8 +12,8 @@
           </li>
         </grains>
         <volumeRange>
-          <min>4.46512</min>        
-          <max>4.2651</max>
+          <min>4</min>        
+          <max>10</max>
         </volumeRange>     
       </li>
     </subSounds>
@@ -30,8 +30,8 @@
           </li>
         </grains>
         <volumeRange>
-          <min>4.46512</min>        
-          <max>4.2651</max>
+          <min>4</min>        
+          <max>5</max>
         </volumeRange>     
         <distRange>
           <min>20</min>
@@ -52,8 +52,8 @@
           </li>
         </grains>
         <volumeRange>
-          <min>4.46512</min>        
-          <max>4.2651</max>
+          <min>5</min>        
+          <max>10</max>
         </volumeRange>     
         <distRange>
           <min>20</min>

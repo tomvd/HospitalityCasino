@@ -54,7 +54,7 @@ namespace HospitalityCasino
 						// small delay between games
 						if (comp.eventManager.ticksLeftThisGame > 0) {
 							comp.eventManager.ticksLeftThisGame--;
-							JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.None, 1.3f, (Building)base.TargetThingA);
+							JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1.0f, (Building)base.TargetThingA);
 							return;
 						}
 						if (JobJoyHelper.CheckIfShouldPay(pawn, TargetThingA))
@@ -157,7 +157,7 @@ namespace HospitalityCasino
 					base.EndJobWith(JobCondition.Succeeded);
 					return;
 				}
-				JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.None, 1.3f + extraJoy, (Building)base.TargetThingA);
+				JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1.0f + extraJoy, (Building)base.TargetThingA);
 			};
 			
 			toil.socialMode = RandomSocialMode.SuperActive;
@@ -165,6 +165,7 @@ namespace HospitalityCasino
 			toil.defaultDuration = 1200;
 			toil.AddFinishAction(delegate
 			{
+				TargetThingA.TryGetComp<SlotMachineComp>().eventManager.EndGame();
 				JoyUtility.TryGainRecRoomThought(this.pawn);
 			});
 			yield return toil;
