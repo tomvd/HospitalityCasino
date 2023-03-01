@@ -24,7 +24,7 @@ namespace HospitalityCasino
 				eventManager.reels[i] = new SlotReel();
 			Vector3 middle = parent.Position.ToVector3() + new Vector3(0.5045f, 0f, 0.5f);
 			Vector3 offset = new Vector3(0.2f, 0f, 0f);
-			middle.z += 0.3f;
+			middle.z += 0.31f;
 			eventManager.reels[0].drawLocation = middle - offset;
 			eventManager.reels[1].drawLocation = middle;
 			eventManager.reels[2].drawLocation = middle + offset;
@@ -151,17 +151,20 @@ namespace HospitalityCasino
 			float houseCut = 6f; // always between 0 and 12, default 6
 			outcome = SlotGameOutcome.Loss;
 			float random = Rand.Range(0f, 1f);
-			if (slotType==0) {
+			if (slotType==0) { // default
 				if (random <= 0.455f) outcome = SlotGameOutcome.Single; // 34% chance of single bet win = 1s
 				if (random <= (0.105f + Mathf.Lerp(+0.005f,-0.005f,(houseCut*100f/12f)))) outcome = SlotGameOutcome.Double; // 5.5 to 4.5% (variable depending on house cut 0-12%) chance of double bet win = 2s
 				if (random <= (0.05f + Mathf.Lerp(+0.0005f,-0.0005f,(houseCut*100f/12f)))) outcome = SlotGameOutcome.Jackpot; // 0.55 to 0.45% (variable depending on house cut 0-12%) chance of jackpot = all in machine, capped to 100s
 			}
-			if (slotType==1 || slotType==2) {
+			if (slotType==1) { // 10x lower chance on jackpot
 				if (random <= 0.395f) outcome = SlotGameOutcome.Single; // 34% chance of single bet win = 1s
 				if (random <= (0.055f + Mathf.Lerp(+0.005f,-0.005f,(houseCut*100f/12f)))) outcome = SlotGameOutcome.Double; // 5.5 to 4.5% (variable depending on house cut 0-12%) chance of double bet win = 2s
+				if (random <= (0.005f + Mathf.Lerp(+0.0005f,-0.0005f,(houseCut*100f/12f)))) outcome = SlotGameOutcome.Jackpot; // 0.055 to 0.045% (variable depending on house cut 0-12%) chance of jackpot = all in machine, capped to 100s
+			}
+			if (slotType==2) { // only (big) jackpot
 				if (random <= (0.005f + Mathf.Lerp(+0.0005f,-0.0005f,(houseCut*100f/12f)))) outcome = SlotGameOutcome.Jackpot; // 0.55 to 0.45% (variable depending on house cut 0-12%) chance of jackpot = all in machine, capped to 100s
 			}
-			Log.Message("CalculateNewEvents outcome=" + outcome);
+			//Log.Message("CalculateNewEvents outcome=" + outcome);
 			switch(outcome) {
 				case SlotGameOutcome.Loss:
 					// TODO any random combination where no 3 same

@@ -61,6 +61,7 @@ namespace HospitalityCasino
                         {
 							var cash = pawn.inventory.innerContainer?.FirstOrDefault(t => t?.def == ThingDefOf.Silver);
 							if (cash != null && cash.stackCount >= vendingMachine.CurrentPrice){
+								comp.TotalRevenue += vendingMachine.CurrentPrice;
 								vendingMachine.ReceivePayment(pawn.inventory.innerContainer, cash);
 							}
 							else
@@ -89,9 +90,9 @@ namespace HospitalityCasino
 						if (comp.eventManager.outcome == SlotGameOutcome.Single)
 						{
 							int silverRewarded = vendingMachine.CurrentPrice;
-							comp.TotalPayout += silverRewarded;
 							if (JobJoyHelper.CheckIfShouldPay(pawn, TargetThingA))
 							{
+								comp.TotalPayout += silverRewarded;
 								JobJoyHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 							}
 							extraJoy += 0.2f;
@@ -99,11 +100,11 @@ namespace HospitalityCasino
 						if (comp.eventManager.outcome == SlotGameOutcome.Double)
 						{
 							int silverRewarded = vendingMachine.CurrentPrice*2;
-							comp.TotalPayout += silverRewarded;
 							if (silverRewarded > 0)
 							{
 								if (JobJoyHelper.CheckIfShouldPay(pawn, TargetThingA))
 								{
+									comp.TotalPayout += silverRewarded;
 									JobJoyHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 								}
 							}
@@ -115,7 +116,6 @@ namespace HospitalityCasino
 							
 							int silverRewarded = 10*vendingMachine.CurrentPrice;
 							if (comp.eventManager.slotType==0) {
-								silverRewarded = 100*vendingMachine.CurrentPrice;
 								pawn.needs.mood.thoughts.memories.TryGainMemory(MyDefs.HC_WonSlotMachineGame);
 								extraJoy += 1f;
 							}
@@ -137,11 +137,15 @@ namespace HospitalityCasino
 							{
 								if (JobJoyHelper.CheckIfShouldPay(pawn, TargetThingA))
 								{
+									comp.TotalPayout += silverRewarded;
 									JobJoyHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 								}
 								extraJoy += 5f;
 							}
 						}	
+						//Log.Message(" revenue=" + comp.TotalRevenue);
+						//Log.Message(" payout=" + comp.TotalPayout);
+
 						// pawn stops after 10 games
 						if (++comp.eventManager.gamesPlayed > 10) {
 							comp.eventManager.EndGame();
@@ -220,10 +224,32 @@ namespace HospitalityCasino
 		}
 		public static void GiveRewardToPawn(Pawn pawn, int amount, bool isGuest, ThingDef rewardDef, CompVendingMachine vendingMachine)
 		{
-            var cash = vendingMachine.MainContainer?.FirstOrDefault(t => t?.def == ThingDefOf.Silver);
-            if (cash == null) return;
-            var payAmount = Mathf.Min(cash.stackCount, amount);
-            var paid = vendingMachine.MainContainer.TryTransferToContainer(cash, pawn.inventory.innerContainer, payAmount);
+			int payFromMachine;
+			int payFromStorage;
+            var cashOnMachine = vendingMachine.MainContainer?.FirstOrDefault(t => t?.def == ThingDefOf.Silver);
+            if (cashOnMachine == null) {
+				payFromMachine = 0;
+				payFromStorage = amount;
+			} else {
+            	payFromMachine = Mathf.Min(cashOnMachine.stackCount, amount);
+				payFromStorage = amount - payFromMachine;
+			}
+			if (payFromMachine > 0) {
+				vendingMachine.MainContainer.TryTransferToContainer(cashOnMachine, pawn.inventory.innerContainer, payFromMachine);
+			}
+			if (payFromStorage > 0) {
+				// pay rest from silver in storage
+                var silverList = pawn.Map.listerThings.ThingsOfDef(ThingDefOf.Silver)
+                                        .Where(x => !x.Position.Fogged(x.Map) && (pawn.Map.areaManager.Home[x.Position] || x.IsInAnyStorage())).ToList();
+				var value = payFromStorage;
+                while (value > 0)
+                {
+                    var silver = silverList.First(t => t.stackCount > 0);
+                    var num    = Mathf.Min(value, silver.stackCount);
+                    silver.SplitOff(num).Destroy();
+                    value -= num;
+                }
+            }			
 		}
 	}
 }
