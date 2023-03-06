@@ -92,6 +92,7 @@ namespace HospitalityCasino
         }
 		public void UpdateDrawState()
         {
+			if (!HospitalityCasinoMod.initialised) return;
 			switch(state)
 			{
 				case SlotReelState.Seven:
