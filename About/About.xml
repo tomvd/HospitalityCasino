@@ -15,6 +15,7 @@
 	</modDependencies>
 	<loadAfter>
 		<li>Orion.Hospitality</li>
+		<li>VanillaExpanded.VFECore</li>
 	</loadAfter>
 	<description>
 		Want to squeeze some more silver out of the pockets of your guests? Build your casino and let them have a happy stay while loading your slot machines.

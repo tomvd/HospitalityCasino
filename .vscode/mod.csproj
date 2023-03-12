@@ -35,8 +35,8 @@
 		</Reference>
 
 		<!-- Harmony -->
-		<!-- <Reference Include="../../Harmony/Current/Assemblies/0Harmony.dll">
+		<Reference Include="../../Harmony/Current/Assemblies/0Harmony.dll">
 			<Private>False</Private>
-		</Reference> -->
+		</Reference>
 	</ItemGroup>
 </Project>

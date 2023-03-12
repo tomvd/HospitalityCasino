@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
+using HarmonyLib;
+using RimWorld;
 using UnityEngine;
 using Verse;
-using Verse.AI;
-using Verse.Sound;
-using RimWorld;
 
 namespace HospitalityCasino
 {
@@ -44,7 +41,12 @@ namespace HospitalityCasino
 		{
 			//InitialiseTextures();
 			// settings
-		}
+            harmonyInstance = new Harmony("Adamas.HospitalityCasino");
+            harmonyInstance.PatchAll();
+        }
+
+        public static Harmony harmonyInstance;			
+		
 		
 		public static void InitialiseTextures()
         {

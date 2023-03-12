@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Add /comps/li/compClass if there are no comps yet. -->
+<!-- Add /li/compClass to /comps if exists (i.e. other mod already added the comps field first) -->
+<Patch>
+<Operation Class="PatchOperationConditional">
+<xpath>Defs/ThingDef[defName="PokerTable"]/comps</xpath>
+<nomatch Class="PatchOperationAdd">
+	<xpath>Defs/ThingDef[defName="PokerTable"]</xpath>
+	<value>
+		<comps>
+			<li Class="Hospitality.CompProperties_VendingMachine">
+				<compClass>Hospitality.CompVendingMachine</compClass>
+				<defaultPrice>1</defaultPrice>
+				<priceSteps>1</priceSteps>
+				<noToggle>true</noToggle>
+			</li>
+		</comps>
+	</value>
+</nomatch>
+<match Class="PatchOperationAdd">
+	<xpath>Defs/ThingDef[defName="PokerTable"]/comps</xpath>
+	<value>
+		<li Class="Hospitality.CompProperties_VendingMachine">
+			<compClass>Hospitality.CompVendingMachine</compClass>
+			<defaultPrice>1</defaultPrice>
+			<priceSteps>1</priceSteps>
+			<noToggle>true</noToggle>
+		</li>
+	</value>
+</match>
+</Operation>
+<Operation Class="PatchOperationReplace">
+	<xpath>Defs/JobDef[defName="Play_Poker"]/driverClass/text()</xpath>
+	<value>HospitalityCasino.JobDriver_PlayPokerForMoney</value>
+</Operation>	
+</Patch>

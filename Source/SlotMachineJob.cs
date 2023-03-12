@@ -1,12 +1,10 @@
-using System.Linq;
-using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
+using Hospitality;
+using RimWorld;
 using Verse;
 using Verse.AI;
 using Verse.Sound;
-using RimWorld;
-using Hospitality;
 
 namespace HospitalityCasino
 {
@@ -14,17 +12,17 @@ namespace HospitalityCasino
 	{
 		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
-			return this.pawn.Reserve(this.job.targetA, this.job, this.job.def.joyMaxParticipants, 0, null, errorOnFailed);
+			return pawn.Reserve(job.targetA, job, job.def.joyMaxParticipants, 0, null, errorOnFailed);
 		}
 
         protected override IEnumerable<Toil> MakeNewToils()
 		{
-			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
+			this.EndOnDespawnedOrNull(TargetIndex.A);
 			yield return Toils_Goto.GotoCell(TargetThingA.InteractionCell, PathEndMode.OnCell);
 			Toil toil = new Toil();
 			toil.initAction = delegate ()
 			{
-				this.job.locomotionUrgency = LocomotionUrgency.Walk;
+				job.locomotionUrgency = LocomotionUrgency.Walk;
 				TargetThingA.TryGetComp<SlotMachineComp>().eventManager.gameStarted = false;
 				TargetThingA.TryGetComp<SlotMachineComp>().eventManager.gamesPlayed = 0;
 			};
@@ -39,13 +37,13 @@ namespace HospitalityCasino
 					if (comp.justRespawned)
                     {
 						comp.justRespawned = false;
-						base.EndJobWith(JobCondition.Succeeded);
+						EndJobWith(JobCondition.Succeeded);
 						return;
 					}
 					if (!compPower.PowerOn) {
 						// pawn stops if power goes down
 						comp.eventManager.EndGame();
-						base.EndJobWith(JobCondition.Succeeded);
+						EndJobWith(JobCondition.Succeeded);
 						return;						
 					}
 
@@ -54,25 +52,22 @@ namespace HospitalityCasino
 						// small delay between games
 						if (comp.eventManager.ticksLeftThisGame > 0) {
 							comp.eventManager.ticksLeftThisGame--;
-							JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1.0f, (Building)base.TargetThingA);
+							JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1.0f, (Building)TargetThingA);
 							return;
 						}
-						if (JobJoyHelper.CheckIfShouldPay(pawn, TargetThingA))
-                        {
-							var cash = pawn.inventory.innerContainer?.FirstOrDefault(t => t?.def == ThingDefOf.Silver);
-							if (cash != null && cash.stackCount >= vendingMachine.CurrentPrice){
-								comp.TotalRevenue += vendingMachine.CurrentPrice;
-								vendingMachine.ReceivePayment(pawn.inventory.innerContainer, cash);
-							}
-							else
-							{
-								// pawn stops if out of money
-								comp.eventManager.EndGame();
-								base.EndJobWith(JobCondition.Succeeded);
-								return;
-							}
+						if ((comp.eventManager.gamesPlayed > 3 && (Rand.Chance(0.5f)) || pawn.needs.joy.CurLevel > 0.9f))
+						{
+							// pawn has a 50% chance to stop after 3 games, or if he has had enough joy
+							comp.eventManager.EndGame();
+							EndJobWith(JobCondition.Succeeded);
+							return;							
 						}
-						MyDefs.Coin.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));			
+						if (!VendingMachineJobHelper.InsertCoin(pawn, TargetThingA)) {
+							// pawn stops if he is out of money
+							comp.eventManager.EndGame();
+							EndJobWith(JobCondition.Succeeded);
+							return;
+						}	
 						comp.eventManager.CalculateNewEvents();
 					}
 					comp.eventManager.ticksLeftThisGame--;
@@ -90,10 +85,10 @@ namespace HospitalityCasino
 						if (comp.eventManager.outcome == SlotGameOutcome.Single)
 						{
 							int silverRewarded = vendingMachine.CurrentPrice;
-							if (JobJoyHelper.CheckIfShouldPay(pawn, TargetThingA))
+							if (VendingMachineJobHelper.CheckIfShouldPay(pawn, TargetThingA))
 							{
 								comp.TotalPayout += silverRewarded;
-								JobJoyHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
+								VendingMachineJobHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 							}
 							extraJoy += 0.2f;
 						}								
@@ -102,10 +97,10 @@ namespace HospitalityCasino
 							int silverRewarded = vendingMachine.CurrentPrice*2;
 							if (silverRewarded > 0)
 							{
-								if (JobJoyHelper.CheckIfShouldPay(pawn, TargetThingA))
+								if (VendingMachineJobHelper.CheckIfShouldPay(pawn, TargetThingA))
 								{
 									comp.TotalPayout += silverRewarded;
-									JobJoyHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
+									VendingMachineJobHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 								}
 							}
 							extraJoy += 0.5f;
@@ -135,10 +130,10 @@ namespace HospitalityCasino
 							}
 							if (silverRewarded > 0)
 							{
-								if (JobJoyHelper.CheckIfShouldPay(pawn, TargetThingA))
+								if (VendingMachineJobHelper.CheckIfShouldPay(pawn, TargetThingA))
 								{
 									comp.TotalPayout += silverRewarded;
-									JobJoyHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
+									VendingMachineJobHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 								}
 								extraJoy += 5f;
 							}
@@ -146,19 +141,19 @@ namespace HospitalityCasino
 						//Log.Message(" revenue=" + comp.TotalRevenue);
 						//Log.Message(" payout=" + comp.TotalPayout);
 
-						// pawn stops after 10 games
-						if (++comp.eventManager.gamesPlayed > 10) {
+						// pawn stops after 15 games
+						if (++comp.eventManager.gamesPlayed > 15) {
 							comp.eventManager.EndGame();
-							base.EndJobWith(JobCondition.Succeeded);
+							EndJobWith(JobCondition.Succeeded);
 							return;						
 						}
 					}
 
 				}
-				if (Find.TickManager.TicksGame > this.startTick + this.job.def.joyDuration)
+				if (Find.TickManager.TicksGame > startTick + job.def.joyDuration)
 				{
 					comp.eventManager.EndGame();
-					base.EndJobWith(JobCondition.Succeeded);
+					EndJobWith(JobCondition.Succeeded);
 					return;
 				}
 				JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1.0f + extraJoy, (Building)base.TargetThingA);
@@ -173,83 +168,26 @@ namespace HospitalityCasino
 				JoyUtility.TryGainRecRoomThought(this.pawn);
 			});
 			yield return toil;
-			yield break;
 		}
 
 		public override object[] TaleParameters()
 		{
 			return new object[]
 			{
-				this.pawn,
-				base.TargetA.Thing.def
+				pawn,
+				TargetA.Thing.def
 			};
 		}
 	}
 	
 	public class JoyGiver_PlaySlotMachine : JoyGiver_InteractBuildingInteractionCell
 	{
-		protected override bool CanDoDuringGathering
-		{
-			get
-			{
-				return true;
-			}
-		}
+		protected override bool CanDoDuringGathering => true;
+
 		protected override Job TryGivePlayJob(Pawn pawn, Thing t)
 		{
-			if (JobJoyHelper.CheckIfShouldPay(pawn, t))
-			{
-				if (JobJoyHelper.CountSilver(pawn) < t.TryGetComp<CompVendingMachine>().CurrentPrice * 10)
-				{
-					return null;
-				}
-				
-			}
-			return JobMaker.MakeJob(this.def.jobDef, t);
-		}
-	}
-	
-	public class JobJoyHelper
-	{
-
-		public static bool CheckIfShouldPay(Pawn pawn, Thing slotMachine)
-		{
-			// only guests pay
-			return (pawn.Faction != slotMachine.Faction);
-		}
-		public static int CountSilver(Pawn pawn)
-		{
-            if (pawn?.inventory?.innerContainer == null) return 0;
-            return pawn.inventory.innerContainer.Where(s => s.def == ThingDefOf.Silver).Sum(s => s.stackCount);
-		}
-		public static void GiveRewardToPawn(Pawn pawn, int amount, bool isGuest, ThingDef rewardDef, CompVendingMachine vendingMachine)
-		{
-			int payFromMachine;
-			int payFromStorage;
-            var cashOnMachine = vendingMachine.MainContainer?.FirstOrDefault(t => t?.def == ThingDefOf.Silver);
-            if (cashOnMachine == null) {
-				payFromMachine = 0;
-				payFromStorage = amount;
-			} else {
-            	payFromMachine = Mathf.Min(cashOnMachine.stackCount, amount);
-				payFromStorage = amount - payFromMachine;
-			}
-			if (payFromMachine > 0) {
-				vendingMachine.MainContainer.TryTransferToContainer(cashOnMachine, pawn.inventory.innerContainer, payFromMachine);
-			}
-			if (payFromStorage > 0) {
-				// pay rest from silver in storage
-                var silverList = pawn.Map.listerThings.ThingsOfDef(ThingDefOf.Silver)
-                                        .Where(x => !x.Position.Fogged(x.Map) && (pawn.Map.areaManager.Home[x.Position] || x.IsInAnyStorage())).ToList();
-				var value = payFromStorage;
-                while (value > 0)
-                {
-                    var silver = silverList.First(t => t.stackCount > 0);
-                    var num    = Mathf.Min(value, silver.stackCount);
-                    silver.SplitOff(num).Destroy();
-                    value -= num;
-                }
-            }			
+			if (!VendingMachineJobHelper.CanPawnAffordThis(pawn, t)) return null;
+			return JobMaker.MakeJob(def.jobDef, t);
 		}
 	}
 }
