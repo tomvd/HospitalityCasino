@@ -10,8 +10,7 @@
       <li>HC_SlotMachineBlue</li>
     </thingDefs>
     <jobDef>Play_SlotMachine</jobDef>
-    <joyKind>Gaming_Cerebral</joyKind>
-    <requireChair>true</requireChair>
+    <joyKind>Gamble</joyKind>
     <requiredCapacities>
       <li>Sight</li>
       <li>Manipulation</li>

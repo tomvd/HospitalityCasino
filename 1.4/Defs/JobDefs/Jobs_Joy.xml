@@ -7,9 +7,7 @@
     <reportString>Playing the slot machine.</reportString>
     <joyDuration>4000</joyDuration>
     <joyMaxParticipants>1</joyMaxParticipants>
-    <joySkill>Intellectual</joySkill>
-    <joyXpPerTick>0.004</joyXpPerTick>
-    <joyKind>Gaming_Cerebral</joyKind>
+    <joyKind>Gamble</joyKind>
     <taleOnCompletion>PlayedGame</taleOnCompletion>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>

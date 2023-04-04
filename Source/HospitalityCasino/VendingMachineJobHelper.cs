@@ -49,6 +49,7 @@ namespace HospitalityCasino
 				if (cash != null && cash.stackCount >= vendingMachine.CurrentPrice){
 					//comp.TotalRevenue += vendingMachine.CurrentPrice;
 					vendingMachine.ReceivePayment(pawn.inventory.innerContainer, cash);
+					// TODO - below sound is also played when a poker game is started, which is weird
 					MyDefs.Coin.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
 				}
 				else
