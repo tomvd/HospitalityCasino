@@ -32,6 +32,7 @@ namespace HospitalityCasino
 				CompPowerTrader compPower = TargetThingA.TryGetComp<CompPowerTrader>();
 				CompVendingMachine vendingMachine = TargetThingA.TryGetComp<CompVendingMachine>();
 				float extraJoy = 0f;
+				pawn.GainComfortFromCellIfPossible();
 				if (comp.initialised)
 				{
 					if (comp.justRespawned)
