@@ -13,15 +13,34 @@
     </stages>
   </ThoughtDef>
   <ThoughtDef>
-    <defName>HC_WonSlotMachineGameBig</defName>
-    <durationDays>2.5</durationDays>
-    <stackLimit>1</stackLimit>
+    <defName>RiggedSlotmachine</defName>
+    <durationDays>5</durationDays>
+    <stackedEffectMultiplier>0.98</stackedEffectMultiplier>
+    <stackLimit>10</stackLimit>
     <stages>
       <li>
-        <label>won a big jackpot</label>
-        <description>I had some incredible luck on the pokies!</description>
-        <baseMoodEffect>15</baseMoodEffect>
+        <label>rigged slotmachine</label>
+        <description>I think the slot machine is rigged.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
       </li>
     </stages>
+    <nullifyingTraits>
+      <li>Kind</li>
+      <li>Ascetic</li>
+    </nullifyingTraits>
   </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>GenerousSlotmachine</defName>
+    <durationDays>5</durationDays>
+    <stackedEffectMultiplier>0.98</stackedEffectMultiplier>
+    <stackLimit>10</stackLimit>
+    <stages>
+      <li>
+        <label>generous slotmachine</label>
+        <description>Feels like the slot machine is very generous today.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>  
 </Defs>

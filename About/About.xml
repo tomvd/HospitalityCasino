@@ -3,16 +3,17 @@
 	<name>Hospitality: Casino</name>
 	<author>Adamas</author>
 	<packageId>Adamas.HospitalityCasino</packageId>
+	<url>https://steamcommunity.com/sharedfiles/filedetails/?id=2939292644</url>
 	<supportedVersions>
 		<li>1.4</li>
 	</supportedVersions>
-	<modDependencies>
+	<!--<modDependencies>
 		<li>
 			<packageId>Orion.Hospitality</packageId>
 			<displayName>Hospitality</displayName>
 			<steamWorkshopUrl>steam://url/CommunityFilePage/2553700067</steamWorkshopUrl>
 		</li>
-	</modDependencies>
+	</modDependencies>-->
 	<loadAfter>
 		<li>Orion.Hospitality</li>
 		<li>VanillaExpanded.VFECore</li>

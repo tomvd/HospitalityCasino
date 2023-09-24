@@ -38,7 +38,7 @@
         <Mass>10</Mass>
         <Flammability>1.0</Flammability>
         <JoyGainFactor>1.3</JoyGainFactor>
-        <MarketValue>2500</MarketValue>
+        <MarketValue>1250</MarketValue>
       </statBases>
       <designationCategory>Joy</designationCategory>      
       <researchPrerequisites>
@@ -50,7 +50,7 @@
   <ThingDef ParentName="HC_SlotMachineBase">
     <defName>HC_SlotMachineRed</defName>
     <label>Rim n Reels</label>
-    <description>Classic slots, with a jackpot capped to 10x stake.</description>
+    <description>Classic slots, default stake is only 2$, perfect for beginners.</description>
     <graphicData>
         <texPath>Things/Building/SlotMachineRed</texPath>
         <graphicClass>Graphic_Multi</graphicClass>
@@ -62,6 +62,10 @@
           <drawSize>(2.3,2.3)</drawSize>
       </graphicData>
     <uiIconPath>UI/Icons/SlotMachineRed</uiIconPath>
+      <statBases>
+          <JoyGainFactor>1.3</JoyGainFactor>
+          <MarketValue>1250</MarketValue>
+      </statBases>      
     <comps>
         <li Class="CompProperties_Power">
             <compClass>CompPowerTrader</compClass>
@@ -77,10 +81,9 @@
           <compClass>HospitalityCasino.SlotMachineComp</compClass>
           <type>0</type>
       </li>
-        <li Class="Hospitality.CompProperties_VendingMachine">
-          <compClass>Hospitality.CompVendingMachine</compClass>
-          <defaultPrice>1</defaultPrice>
-          <priceSteps>1</priceSteps>
+        <li Class="HospitalityCasino.CompProperties_VendingMachine">
+          <compClass>HospitalityCasino.CompVendingMachine</compClass>
+          <defaultPrice>2</defaultPrice>
           <noToggle>true</noToggle>
       </li>
     </comps>
@@ -89,7 +92,7 @@
   <ThingDef ParentName="HC_SlotMachineBase">
     <defName>HC_SlotMachineGreen</defName>
     <label>Rima Moolah</label>
-    <description>Classic slots, with a jackpot capped to 100x stake.</description>
+    <description>Medium priced slots, default stake is 4$.</description>
     <graphicData>
         <texPath>Things/Building/SlotMachineGreen</texPath>
         <graphicClass>Graphic_Multi</graphicClass>
@@ -100,11 +103,15 @@
         </damageData>
           <drawSize>(2.3,2.3)</drawSize>
       </graphicData>    
-    <uiIconPath>UI/Icons/SlotMachineGreen</uiIconPath>        
-    <comps>
+    <uiIconPath>UI/Icons/SlotMachineGreen</uiIconPath>
+      <statBases>
+          <JoyGainFactor>1.4</JoyGainFactor>
+          <MarketValue>1500</MarketValue>
+      </statBases>
+      <comps>
         <li Class="CompProperties_Power">
             <compClass>CompPowerTrader</compClass>
-            <basePowerConsumption>120</basePowerConsumption>
+            <basePowerConsumption>125</basePowerConsumption>
         </li>
         <li Class="CompProperties_Glower">
             <glowRadius>3</glowRadius>
@@ -116,10 +123,9 @@
           <compClass>HospitalityCasino.SlotMachineComp</compClass>
           <type>1</type>
       </li>
-        <li Class="Hospitality.CompProperties_VendingMachine">
-          <compClass>Hospitality.CompVendingMachine</compClass>
-          <defaultPrice>1</defaultPrice>
-          <priceSteps>1</priceSteps>
+        <li Class="HospitalityCasino.CompProperties_VendingMachine">
+          <compClass>HospitalityCasino.CompVendingMachine</compClass>
+          <defaultPrice>4</defaultPrice>
           <noToggle>true</noToggle>
       </li>
     </comps>
@@ -128,7 +134,7 @@
   <ThingDef ParentName="HC_SlotMachineBase">
     <defName>HC_SlotMachineBlue</defName>
     <label>Rim of Fortune</label>
-    <description>Classic slots, with an infinite progressive jackpot.</description>
+    <description>High stake slots, default stake is 6$.</description>
     <graphicData>
         <texPath>Things/Building/SlotMachineBlue</texPath>
         <graphicClass>Graphic_Multi</graphicClass>
@@ -140,10 +146,15 @@
           <drawSize>(2.3,2.3)</drawSize>
       </graphicData>        
       <uiIconPath>UI/Icons/SlotMachineBlue</uiIconPath>
+      <statBases>
+          <JoyGainFactor>1.4</JoyGainFactor>
+          <MarketValue>1750</MarketValue>
+      </statBases>
+      
     <comps>
         <li Class="CompProperties_Power">
             <compClass>CompPowerTrader</compClass>
-            <basePowerConsumption>120</basePowerConsumption>
+            <basePowerConsumption>130</basePowerConsumption>
         </li>
         <li Class="CompProperties_Glower">
             <glowRadius>3</glowRadius>
@@ -155,10 +166,9 @@
           <compClass>HospitalityCasino.SlotMachineComp</compClass>
           <type>2</type>
       </li>
-        <li Class="Hospitality.CompProperties_VendingMachine">
-          <compClass>Hospitality.CompVendingMachine</compClass>
-          <defaultPrice>1</defaultPrice>
-          <priceSteps>1</priceSteps>
+        <li Class="HospitalityCasino.CompProperties_VendingMachine">
+          <compClass>HospitalityCasino.CompVendingMachine</compClass>
+          <defaultPrice>6</defaultPrice>
           <noToggle>true</noToggle>
       </li>
     </comps>

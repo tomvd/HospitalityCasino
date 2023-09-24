@@ -7,7 +7,7 @@ namespace HospitalityCasino
 
     public class JobDriver_PlayPokerForMoney : JobDriver_PlayPoker
     {
-        protected override void ModifyPlayToil(Toil toil)
+        public override void ModifyPlayToil(Toil toil)
         {
             base.ModifyPlayToil(toil);
             toil.initAction = delegate ()

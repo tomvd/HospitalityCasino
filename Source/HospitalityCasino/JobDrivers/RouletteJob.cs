@@ -9,7 +9,7 @@ namespace HospitalityCasino
 
     public class JobDriver_PlayRouletteForMoney : JobDriver_SitFacingBuilding
     {
-        protected override void ModifyPlayToil(Toil toil)
+        public override void ModifyPlayToil(Toil toil)
         {
             base.ModifyPlayToil(toil);
             toil.initAction = delegate ()

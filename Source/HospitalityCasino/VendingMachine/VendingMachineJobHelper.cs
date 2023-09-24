@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using System.Linq;
-using Hospitality;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -7,8 +7,19 @@ using Verse.Sound;
 
 namespace HospitalityCasino
 {
-    public class VendingMachineJobHelper
+    public static class VendingMachineJobHelper
 	{
+		public static List<Building> GetActiveVendingMachines(Map map)
+		{
+			return map.listerBuildings.allBuildingsColonist
+				.Where(building => building.IsVendingMachine()).ToList();
+		}
+
+		public static bool IsVendingMachine(this Building building)
+		{
+			if (building.comps == null) return false;
+			return building.comps.Any(comp => comp is CompVendingMachine machine && machine.IsActive() && machine.IsPowered());
+		}
 
 		public static bool CheckIfShouldPay(Pawn pawn, Thing slotMachine)
 		{
@@ -23,13 +34,13 @@ namespace HospitalityCasino
 
         public static bool CanPawnAffordThis(Pawn pawn, Thing vendingMachine)
         {
-	        
 	        CompVendingMachine compVendingMachine = vendingMachine.TryGetComp<CompVendingMachine>();
+	        SlotMachineComp comp = vendingMachine.TryGetComp<SlotMachineComp>();
 	        if (compVendingMachine != null)
 	        {
 		        if (CheckIfShouldPay(pawn, vendingMachine))
 		        {
-			        if (CountSilver(pawn) < compVendingMachine.CurrentPrice * 10)
+			        if (CountSilver(pawn) < compVendingMachine.GetSingleItemPrice(null) * 10)
 			        {
 				        Log.Message("Pawn wanted to play, but could not afford it");
 				        return false;
@@ -43,12 +54,13 @@ namespace HospitalityCasino
 		public static bool InsertCoin(Pawn pawn, Thing vendingMachineParent)
 		{
 			CompVendingMachine vendingMachine = vendingMachineParent.TryGetComp<CompVendingMachine>();
+			SlotMachineComp comp = vendingMachineParent.TryGetComp<SlotMachineComp>();
 			if (vendingMachine != null && CheckIfShouldPay(pawn, vendingMachineParent))
 			{
 				var cash = pawn.inventory.innerContainer?.FirstOrDefault(t => t?.def == ThingDefOf.Silver);
-				if (cash != null && cash.stackCount >= vendingMachine.CurrentPrice){
+				if (cash != null && cash.stackCount >= vendingMachine.GetSingleItemPrice(null)){
 					//comp.TotalRevenue += vendingMachine.CurrentPrice;
-					vendingMachine.ReceivePayment(pawn.inventory.innerContainer, cash);
+					vendingMachine.ReceivePayment(pawn.inventory.innerContainer, cash, null, 1);
 					// TODO - below sound is also played when a poker game is started, which is weird
 					MyDefs.Coin.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
 				}
@@ -74,6 +86,7 @@ namespace HospitalityCasino
 			}
 			if (payFromMachine > 0) {
 				vendingMachine.MainContainer.TryTransferToContainer(cashOnMachine, pawn.inventory.innerContainer, payFromMachine);
+				vendingMachine.Payout(payFromMachine);
 			}
 			if (payFromStorage > 0) {
 				// pay rest from silver in storage

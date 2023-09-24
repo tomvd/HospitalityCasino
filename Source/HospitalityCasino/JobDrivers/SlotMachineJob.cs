@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using Hospitality;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -15,7 +13,7 @@ namespace HospitalityCasino
 			return pawn.Reserve(job.targetA, job, job.def.joyMaxParticipants, 0, null, errorOnFailed);
 		}
 
-        protected override IEnumerable<Toil> MakeNewToils()
+		public override IEnumerable<Toil> MakeNewToils()
 		{
 			this.EndOnDespawnedOrNull(TargetIndex.A);
 			yield return Toils_Goto.GotoCell(TargetThingA.InteractionCell, PathEndMode.OnCell);
@@ -85,17 +83,17 @@ namespace HospitalityCasino
 						comp.eventManager.gameStarted = false;
 						if (comp.eventManager.outcome == SlotGameOutcome.Single)
 						{
-							int silverRewarded = vendingMachine.CurrentPrice;
+							int silverRewarded = 2 * comp.Properties.type+1;
 							if (VendingMachineJobHelper.CheckIfShouldPay(pawn, TargetThingA))
 							{
 								comp.TotalPayout += silverRewarded;
 								VendingMachineJobHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 							}
-							extraJoy += 0.2f;
+							extraJoy += 0.2f * comp.Properties.type+1;
 						}								
 						if (comp.eventManager.outcome == SlotGameOutcome.Double)
 						{
-							int silverRewarded = vendingMachine.CurrentPrice*2;
+							int silverRewarded = (2 * comp.Properties.type+1)*2;
 							if (silverRewarded > 0)
 							{
 								if (VendingMachineJobHelper.CheckIfShouldPay(pawn, TargetThingA))
@@ -104,30 +102,16 @@ namespace HospitalityCasino
 									VendingMachineJobHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 								}
 							}
-							extraJoy += 0.5f;
+							extraJoy += 0.5f * comp.Properties.type+1;
 						}							
 						if (comp.eventManager.outcome == SlotGameOutcome.Jackpot)
 						{
 							MyDefs.MapOnlyTinyBell.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
 							
-							int silverRewarded = 10*vendingMachine.CurrentPrice;
+							int silverRewarded = (2 * comp.Properties.type+1)*5;
 							if (comp.eventManager.slotType==0) {
 								pawn.needs.mood.thoughts.memories.TryGainMemory(MyDefs.HC_WonSlotMachineGame);
 								extraJoy += 1f;
-							}
-							if (comp.eventManager.slotType==1) {
-								silverRewarded = 100*vendingMachine.CurrentPrice;
-								pawn.needs.mood.thoughts.memories.TryGainMemory(MyDefs.HC_WonSlotMachineGameBig);
-								extraJoy += 2f;
-							}
-							if (comp.eventManager.slotType==2) {
-								// everything in the machine
-					            var cash = vendingMachine.MainContainer?.FirstOrDefault(t => t?.def == ThingDefOf.Silver);
-								if (cash == null) silverRewarded = 0;
-								else {
-									silverRewarded = cash.stackCount;
-									pawn.needs.mood.thoughts.memories.TryGainMemory(MyDefs.HC_WonSlotMachineGameBig);
-								}
 							}
 							if (silverRewarded > 0)
 							{
@@ -136,7 +120,7 @@ namespace HospitalityCasino
 									comp.TotalPayout += silverRewarded;
 									VendingMachineJobHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 								}
-								extraJoy += 5f;
+								extraJoy += 2f * comp.Properties.type+1;
 							}
 						}	
 						//Log.Message(" revenue=" + comp.TotalRevenue);
@@ -167,6 +151,18 @@ namespace HospitalityCasino
 			{
 				TargetThingA.TryGetComp<SlotMachineComp>().eventManager.EndGame();
 				JoyUtility.TryGainRecRoomThought(this.pawn);
+				if (VendingMachineJobHelper.CheckIfShouldPay(pawn, TargetThingA))
+				{
+					// guests gain thoughts about non-default settings of slot machines
+					if (TargetThingA.TryGetComp<CompVendingMachine>().Pricing == 3)
+					{
+						toil.actor.needs.mood.thoughts.memories.TryGainMemory(MyDefs.RiggedSlotmachine);
+					}
+					else if (TargetThingA.TryGetComp<CompVendingMachine>().Pricing == 1)
+					{
+						toil.actor.needs.mood.thoughts.memories.TryGainMemory(MyDefs.GenerousSlotmachine);
+					}
+				}
 			});
 			yield return toil;
 		}
@@ -183,9 +179,9 @@ namespace HospitalityCasino
 	
 	public class JoyGiver_PlaySlotMachine : JoyGiver_InteractBuildingInteractionCell
 	{
-		protected override bool CanDoDuringGathering => true;
+		public override bool CanDoDuringGathering => true;
 
-		protected override Job TryGivePlayJob(Pawn pawn, Thing t)
+		public override Job TryGivePlayJob(Pawn pawn, Thing t)
 		{
 			if (!VendingMachineJobHelper.CanPawnAffordThis(pawn, t)) return null;
 			return JobMaker.MakeJob(def.jobDef, t);

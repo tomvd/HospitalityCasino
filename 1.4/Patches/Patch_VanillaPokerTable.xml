@@ -8,10 +8,9 @@
 	<xpath>Defs/ThingDef[defName="PokerTable"]</xpath>
 	<value>
 		<comps>
-			<li Class="Hospitality.CompProperties_VendingMachine">
-				<compClass>Hospitality.CompVendingMachine</compClass>
-				<defaultPrice>1</defaultPrice>
-				<priceSteps>1</priceSteps>
+			<li Class="HospitalityCasino.CompProperties_VendingMachine">
+				<compClass>HospitalityCasino.CompVendingMachine</compClass>
+				<defaultPrice>2</defaultPrice>
 				<noToggle>true</noToggle>
 			</li>
 		</comps>
@@ -20,10 +19,9 @@
 <match Class="PatchOperationAdd">
 	<xpath>Defs/ThingDef[defName="PokerTable"]/comps</xpath>
 	<value>
-		<li Class="Hospitality.CompProperties_VendingMachine">
-			<compClass>Hospitality.CompVendingMachine</compClass>
-			<defaultPrice>1</defaultPrice>
-			<priceSteps>1</priceSteps>
+		<li Class="HospitalityCasino.CompProperties_VendingMachine">
+			<compClass>HospitalityCasino.CompVendingMachine</compClass>
+			<defaultPrice>2</defaultPrice>
 			<noToggle>true</noToggle>
 		</li>
 	</value>

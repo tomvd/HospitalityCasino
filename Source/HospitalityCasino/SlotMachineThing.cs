@@ -149,22 +149,22 @@ namespace HospitalityCasino
 		public void CalculateNewEvents()
         {
 			// outcome is defined here, as well as the reels endstate
-			float houseCut = 6f; // always between 0 and 12, default 6
+			float houseCut = 10f; // always between 0 and 12, default 6
 			outcome = SlotGameOutcome.Loss;
 			float random = Rand.Range(0f, 1f);
 			if (slotType==0) { // default
-				if (random <= 0.455f) outcome = SlotGameOutcome.Single; // 34% chance of single bet win = 1s
+				if (random <= 0.34f) outcome = SlotGameOutcome.Single; // 34% chance of single bet win = 1s
 				if (random <= (0.105f + Mathf.Lerp(+0.005f,-0.005f,(houseCut*100f/12f)))) outcome = SlotGameOutcome.Double; // 5.5 to 4.5% (variable depending on house cut 0-12%) chance of double bet win = 2s
 				if (random <= (0.05f + Mathf.Lerp(+0.0005f,-0.0005f,(houseCut*100f/12f)))) outcome = SlotGameOutcome.Jackpot; // 0.55 to 0.45% (variable depending on house cut 0-12%) chance of jackpot = all in machine, capped to 100s
 			}
-			if (slotType==1) { // 10x lower chance on jackpot
+			/*if (slotType==1) { // 10x lower chance on jackpot
 				if (random <= 0.395f) outcome = SlotGameOutcome.Single; // 34% chance of single bet win = 1s
 				if (random <= (0.055f + Mathf.Lerp(+0.005f,-0.005f,(houseCut*100f/12f)))) outcome = SlotGameOutcome.Double; // 5.5 to 4.5% (variable depending on house cut 0-12%) chance of double bet win = 2s
 				if (random <= (0.005f + Mathf.Lerp(+0.0005f,-0.0005f,(houseCut*100f/12f)))) outcome = SlotGameOutcome.Jackpot; // 0.055 to 0.045% (variable depending on house cut 0-12%) chance of jackpot = all in machine, capped to 100s
 			}
 			if (slotType==2) { // only (big) jackpot
 				if (random <= (0.005f + Mathf.Lerp(+0.0005f,-0.0005f,(houseCut*100f/12f)))) outcome = SlotGameOutcome.Jackpot; // 0.55 to 0.45% (variable depending on house cut 0-12%) chance of jackpot = all in machine, capped to 100s
-			}
+			}*/
 			//Log.Message("CalculateNewEvents outcome=" + outcome);
 			switch(outcome) {
 				case SlotGameOutcome.Loss:
