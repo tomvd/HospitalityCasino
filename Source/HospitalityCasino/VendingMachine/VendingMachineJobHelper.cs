@@ -34,13 +34,16 @@ namespace HospitalityCasino
 
         public static bool CanPawnAffordThis(Pawn pawn, Thing vendingMachine)
         {
+	        if (pawn.IsTeetotaler()) return false;
+	        Trait drugDesire = pawn.story.traits.GetTrait(TraitDefOf.DrugDesire);
+	        if (drugDesire is { Degree: > 0 }) return true;
 	        CompVendingMachine compVendingMachine = vendingMachine.TryGetComp<CompVendingMachine>();
-	        SlotMachineComp comp = vendingMachine.TryGetComp<SlotMachineComp>();
+	        //SlotMachineComp comp = vendingMachine.TryGetComp<SlotMachineComp>();
 	        if (compVendingMachine != null)
 	        {
 		        if (CheckIfShouldPay(pawn, vendingMachine))
 		        {
-			        if (CountSilver(pawn) < compVendingMachine.GetSingleItemPrice(null) * 10)
+			        if (CountSilver(pawn) < compVendingMachine.GetSingleItemPrice(null) * Rand.RangeSeeded(1,10, pawn.thingIDNumber))
 			        {
 				        Log.Message("Pawn wanted to play, but could not afford it");
 				        return false;

@@ -54,12 +54,16 @@ namespace HospitalityCasino
 							JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1.0f, (Building)TargetThingA);
 							return;
 						}
-						if ((comp.eventManager.gamesPlayed > 3 && (Rand.Chance(0.5f)) || pawn.needs.joy.CurLevel > 0.9f))
+						if ((comp.eventManager.gamesPlayed > 3 && (Rand.Chance(0.1f)) || pawn.needs.joy.CurLevel > 0.9f))
 						{
-							// pawn has a 50% chance to stop after 3 games, or if he has had enough joy
-							comp.eventManager.EndGame();
-							EndJobWith(JobCondition.Succeeded);
-							return;							
+							// pawn has a 10% chance to stop after 3 games, or if he has had enough joy, unless he is an addict
+							Trait drugDesire = pawn.story.traits.GetTrait(TraitDefOf.DrugDesire);
+							if (drugDesire == null || drugDesire.Degree == 0)
+							{
+								comp.eventManager.EndGame();
+								EndJobWith(JobCondition.Succeeded);
+								return;
+							}
 						}
 						if (!VendingMachineJobHelper.InsertCoin(pawn, TargetThingA)) {
 							// pawn stops if he is out of money
@@ -125,22 +129,15 @@ namespace HospitalityCasino
 						}	
 						//Log.Message(" revenue=" + comp.TotalRevenue);
 						//Log.Message(" payout=" + comp.TotalPayout);
-
-						// pawn stops after 15 games
-						if (++comp.eventManager.gamesPlayed > 15) {
-							comp.eventManager.EndGame();
-							EndJobWith(JobCondition.Succeeded);
-							return;						
-						}
 					}
 
 				}
-				if (Find.TickManager.TicksGame > startTick + job.def.joyDuration)
+				/*if (Find.TickManager.TicksGame > startTick + job.def.joyDuration)
 				{
 					comp.eventManager.EndGame();
 					EndJobWith(JobCondition.Succeeded);
 					return;
-				}
+				}*/
 				JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1.0f + extraJoy, (Building)base.TargetThingA);
 			};
 			
