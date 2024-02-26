@@ -10,7 +10,7 @@
 		<comps>
 			<li Class="HospitalityCasino.CompProperties_VendingMachine">
 				<compClass>HospitalityCasino.CompVendingMachine</compClass>
-				<defaultPrice>2</defaultPrice>
+				<defaultPrice>10</defaultPrice>
 				<noToggle>true</noToggle>
 			</li>
 		</comps>
@@ -21,12 +21,24 @@
 	<value>
 		<li Class="HospitalityCasino.CompProperties_VendingMachine">
 			<compClass>HospitalityCasino.CompVendingMachine</compClass>
-			<defaultPrice>2</defaultPrice>
+			<defaultPrice>10</defaultPrice>
 			<noToggle>true</noToggle>
 		</li>
 	</value>
 </match>
 </Operation>
+<Operation Class="PatchOperationReplace">
+	<xpath>Defs/ThingDef[defName="PokerTable"]/building/joyKind/text()</xpath>
+	<value>Gamble</value>
+</Operation>		
+<Operation Class="PatchOperationReplace">
+	<xpath>Defs/JoyGiverDef[defName="Play_Poker"]/joyKind/text()</xpath>
+	<value>Gamble</value>
+</Operation>	
+<Operation Class="PatchOperationReplace">
+	<xpath>Defs/JobDef[defName="Play_Poker"]/joyKind/text()</xpath>
+	<value>Gamble</value>
+</Operation>		
 <Operation Class="PatchOperationReplace">
 	<xpath>Defs/JobDef[defName="Play_Poker"]/driverClass/text()</xpath>
 	<value>HospitalityCasino.JobDriver_PlayPokerForMoney</value>

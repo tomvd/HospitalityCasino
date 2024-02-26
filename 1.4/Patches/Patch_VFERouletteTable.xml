@@ -6,39 +6,50 @@
         <mods>
             <li>Vanilla Furniture Expanded</li>
         </mods>
-        <match Class="PatchOperationConditional">
-            <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]/comps</xpath>
-            <nomatch Class="PatchOperationAdd">
-                <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]</xpath>
-                <value>
-                    <comps>
-                        <li Class="HospitalityCasino.CompProperties_VendingMachine">
-                            <compClass>HospitalityCasino.CompVendingMachine</compClass>
-                            <defaultPrice>2</defaultPrice>
-                            <noToggle>true</noToggle>
-                        </li>
-                    </comps>
-                </value>
-            </nomatch>
-            <match Class="PatchOperationAdd">
-                <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]/comps</xpath>
-                <value>
-                    <li Class="HospitalityCasino.CompProperties_VendingMachine">
-                        <compClass>HospitalityCasino.CompVendingMachine</compClass>
-                        <defaultPrice>2</defaultPrice>
-                        <noToggle>true</noToggle>
-                    </li>
-                </value>
-            </match>
-        </match>
-    </Operation>
-    <Operation Class="PatchOperationFindMod">
-        <mods>
-            <li>Vanilla Furniture Expanded</li>
-        </mods>
-        <match Class="PatchOperationReplace">
-            <xpath>Defs/JobDef[defName="Play_Roulette"]/driverClass/text()</xpath>
-            <value>HospitalityCasino.JobDriver_PlayRouletteForMoney</value>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <li Class="PatchOperationConditional">
+                    <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]/comps</xpath>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]</xpath>
+                        <value>
+                            <comps>
+                                <li Class="HospitalityCasino.CompProperties_VendingMachine">
+                                    <compClass>HospitalityCasino.CompVendingMachine</compClass>
+                                    <defaultPrice>10</defaultPrice>
+                                    <noToggle>true</noToggle>
+                                </li>
+                            </comps>
+                        </value>
+                    </nomatch>
+                    <match Class="PatchOperationAdd">
+                        <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]/comps</xpath>
+                        <value>
+                            <li Class="HospitalityCasino.CompProperties_VendingMachine">
+                                <compClass>HospitalityCasino.CompVendingMachine</compClass>
+                                <defaultPrice>10</defaultPrice>
+                                <noToggle>true</noToggle>
+                            </li>
+                        </value>
+                    </match>
+                </li>
+            <li Class="PatchOperationReplace">
+                <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]/building/joyKind/text()</xpath>
+                <value>Gamble</value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>Defs/JoyGiverDef[defName="Play_Roulette"]/joyKind/text()</xpath>
+                <value>Gamble</value>
+            </li>                
+            <li Class="PatchOperationReplace">
+                <xpath>Defs/JobDef[defName="Play_Roulette"]/joyKind/text()</xpath>
+                <value>Gamble</value>
+            </li>                
+            <li Class="PatchOperationReplace">
+                <xpath>Defs/JobDef[defName="Play_Roulette"]/driverClass/text()</xpath>
+                <value>HospitalityCasino.JobDriver_PlayRouletteForMoney</value>
+            </li>
+            </operations>
         </match>
     </Operation>
 </Patch>
