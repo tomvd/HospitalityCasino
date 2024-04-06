@@ -161,7 +161,8 @@ namespace HospitalityCasino
             {
                 return "HospitalityCasino_VendingMachineContains".Translate() + ((float)Content).ToStringMoney("F0") +
                        "\n"
-                       + "HospitalityCasino_VendingMachineTotal".Translate() + ((float)totalSold).ToStringMoney("F0");
+                       + "HospitalityCasino_VendingMachineTotal".Translate() + ((float)totalSold).ToStringMoney("F0")
+                       +"\n";
             }
             else
             {
