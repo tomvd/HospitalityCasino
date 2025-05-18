@@ -16,7 +16,7 @@ namespace HospitalityCasino
             {
                 VendingMachineJobHelper.InsertCoin(toil.GetActor(), base.TargetA.Thing);
             };
-            toil.WithEffect((Func<EffecterDef>) (() => DefDatabase<EffecterDef>.GetNamed("Joy_HoldChips")), (Func<LocalTargetInfo>) (() => (LocalTargetInfo) this.TargetA.Thing.OccupiedRect().ClosestCellTo(this.pawn.Position)));
+            toil.WithEffect((Func<EffecterDef>) (() => DefDatabase<EffecterDef>.GetNamed("VFE_Joy_HoldChips")), (Func<LocalTargetInfo>) (() => (LocalTargetInfo) this.TargetA.Thing.OccupiedRect().ClosestCellTo(this.pawn.Position)));
 
         }
     }
