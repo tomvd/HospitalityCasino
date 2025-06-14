@@ -7,6 +7,7 @@
 	<supportedVersions>
 		<li>1.4</li>
 		<li>1.5</li>
+		<li>1.6</li>
 	</supportedVersions>
 	<!--<modDependencies>
 		<li>
@@ -15,6 +16,7 @@
 			<steamWorkshopUrl>steam://url/CommunityFilePage/2553700067</steamWorkshopUrl>
 		</li>
 	</modDependencies>-->
+	<modIconPath IgnoreIfNoMatchingField="True">CasinoModIcon</modIconPath>
 	<loadAfter>
 		<li>Orion.Hospitality</li>
 		<li>VanillaExpanded.VFECore</li>

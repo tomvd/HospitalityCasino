@@ -35,10 +35,10 @@ namespace HospitalityCasino
 			eventManager.slotType = Properties.type;
 			initialised = true;
 		}
-        public override void PostDeSpawn(Map map)
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
 		{
 			initialised = false;
-			base.PostDeSpawn(map);
+			base.PostDeSpawn(map, mode);
         }
         public override void CompTick()
         {

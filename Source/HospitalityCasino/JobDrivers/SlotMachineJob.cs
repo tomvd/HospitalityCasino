@@ -18,19 +18,19 @@ namespace HospitalityCasino
 			this.EndOnDespawnedOrNull(TargetIndex.A);
 			yield return Toils_Goto.GotoCell(TargetThingA.InteractionCell, PathEndMode.OnCell);
 			Toil toil = new Toil();
-			toil.initAction = delegate ()
+			toil.initAction = delegate
 			{
 				job.locomotionUrgency = LocomotionUrgency.Walk;
 				TargetThingA.TryGetComp<SlotMachineComp>().eventManager.gameStarted = false;
 				TargetThingA.TryGetComp<SlotMachineComp>().eventManager.gamesPlayed = 0;
 			};
-			toil.tickAction = delegate ()
+			toil.tickAction = delegate
 			{
 				SlotMachineComp comp = TargetThingA.TryGetComp<SlotMachineComp>();
 				CompPowerTrader compPower = TargetThingA.TryGetComp<CompPowerTrader>();
 				CompVendingMachine vendingMachine = TargetThingA.TryGetComp<CompVendingMachine>();
 				float extraJoy = 0f;
-				pawn.GainComfortFromCellIfPossible();
+				pawn.GainComfortFromCellIfPossible(1);
 				if (comp.initialised)
 				{
 					if (comp.justRespawned)
@@ -51,7 +51,7 @@ namespace HospitalityCasino
 						// small delay between games
 						if (comp.eventManager.ticksLeftThisGame > 0) {
 							comp.eventManager.ticksLeftThisGame--;
-							JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1.0f, (Building)TargetThingA);
+							JoyUtility.JoyTickCheckEnd(pawn, 1, JoyTickFullJoyAction.EndJob, 1.0f, (Building)TargetThingA);
 							return;
 						}
 						if ((comp.eventManager.gamesPlayed > 3 && (Rand.Chance(0.1f)) || pawn.needs.joy.CurLevel > 0.9f))
@@ -79,7 +79,7 @@ namespace HospitalityCasino
 						if (comp.eventManager.reelEvents[0].eventType == ReelEventType.Stop)
 							MyDefs.MapOnlyDragSlider.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
 						comp.eventManager.reelEvents.RemoveAt(0);
-						JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.None, 1.3f, (Building)base.TargetThingA);
+						JoyUtility.JoyTickCheckEnd(pawn, 1, JoyTickFullJoyAction.None, 1.3f, (Building)TargetThingA);
 						return;
 					}
 					if (comp.eventManager.reelEvents.Count == 0) {
@@ -138,7 +138,7 @@ namespace HospitalityCasino
 					EndJobWith(JobCondition.Succeeded);
 					return;
 				}*/
-				JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, 1.0f + extraJoy, (Building)base.TargetThingA);
+				JoyUtility.JoyTickCheckEnd(pawn, 1, JoyTickFullJoyAction.EndJob, 1.0f + extraJoy, (Building)TargetThingA);
 			};
 			
 			toil.socialMode = RandomSocialMode.SuperActive;

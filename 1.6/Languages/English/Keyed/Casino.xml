@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <HospitalityCasino_VendingMachine>Slot machine</HospitalityCasino_VendingMachine>
+    <HospitalityCasino_VendingMachineContains>Contains:</HospitalityCasino_VendingMachineContains>
+    <HospitalityCasino_VendingMachineTotal>Lifetime earnings:</HospitalityCasino_VendingMachineTotal>
+    <HospitalityCasino_VendingMachineToggleDesc>Allow guests to use this facility.</HospitalityCasino_VendingMachineToggleDesc>
+    <!-- pricing -->
+    <HospitalityCasino_SetPricing>Set Pricing</HospitalityCasino_SetPricing>
+    <HospitalityCasino_Free>Free play</HospitalityCasino_Free>
+    <HospitalityCasino_Low>Low stake - low housecut</HospitalityCasino_Low>
+    <HospitalityCasino_Medium>Default stake - default housecut</HospitalityCasino_Medium>
+    <HospitalityCasino_High>High stake - high housecut</HospitalityCasino_High>
+    <HospitalityCasino_EmptyAfterHours>Empty every slot machine after X hours</HospitalityCasino_EmptyAfterHours>
+    <HospitalityCasino_EmptyAfterHoursTooltip>If a slot machine has not been emptied after this number of hours, somebody will need to come and empty it.</HospitalityCasino_EmptyAfterHoursTooltip>
+</LanguageData>
