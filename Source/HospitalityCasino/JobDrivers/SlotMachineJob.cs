@@ -77,7 +77,7 @@ namespace HospitalityCasino
 					if (comp.eventManager.NextEvent(comp.eventManager.ticksLeftThisGame))
 					{
 						if (comp.eventManager.reelEvents[0].eventType == ReelEventType.Stop)
-							MyDefs.MapOnlyDragSlider.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
+							MyDefs.MapOnlyDragSlider.PlayOneShot(SoundInfo.InMap(pawn));
 						comp.eventManager.reelEvents.RemoveAt(0);
 						JoyUtility.JoyTickCheckEnd(pawn, 1, JoyTickFullJoyAction.None, 1.3f, (Building)TargetThingA);
 						return;
@@ -110,7 +110,7 @@ namespace HospitalityCasino
 						}							
 						if (comp.eventManager.outcome == SlotGameOutcome.Jackpot)
 						{
-							MyDefs.MapOnlyTinyBell.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
+							MyDefs.MapOnlyTinyBell.PlayOneShot(SoundInfo.InMap(pawn));
 							
 							int silverRewarded = (2 * comp.Properties.type+1)*5;
 							if (comp.eventManager.slotType==0) {
