@@ -4,6 +4,7 @@
     <defName>Play_SlotMachine</defName>
     <giverClass>HospitalityCasino.JoyGiver_PlaySlotMachine</giverClass>
     <baseChance>4</baseChance>
+    <requireChair>false</requireChair>
     <thingDefs>
       <li>HC_SlotMachineRed</li>
       <li>HC_SlotMachineGreen</li>

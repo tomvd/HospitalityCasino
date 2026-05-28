@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+    <IncidentDef>
+        <defName>CasinoVisitorGroup</defName>
+        <label>casino visitors</label>
+        <targetTags>
+            <li>Map_PlayerHome</li>
+        </targetTags>
+        <category>FactionArrival</category>
+        <workerClass>HospitalityCasino.IncidentWorker_CasinoVisitorGroup</workerClass>
+        <baseChance>2.0</baseChance>
+        <minRefireDays>0.5</minRefireDays>
+        <minThreatPoints>0</minThreatPoints>
+        <letterLabel>Casino visitors arrive</letterLabel>
+        <letterText>A group of visitors has arrived, drawn by word of your casino. They're looking to try their luck at the slot machines.</letterText>
+        <letterDef>PositiveEvent</letterDef>
+        <requireColonistsPresent>True</requireColonistsPresent>
+    </IncidentDef>
+</Defs>

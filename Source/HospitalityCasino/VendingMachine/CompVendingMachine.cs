@@ -78,6 +78,22 @@ namespace HospitalityCasino
             totalSold -= amount;
         }
 
+        /// <summary>
+        /// Adds the standard play price directly into the machine's container,
+        /// creating the silver from nothing. Used for visitors who carry no silver
+        /// so the machine always gains revenue from play.
+        /// </summary>
+        public void ReceiveVirtualPayment()
+        {
+            int amount = Mathf.CeilToInt(GetSingleItemPrice(null));
+            if (amount <= 0) return;
+            var silver = ThingMaker.MakeThing(ThingDefOf.Silver);
+            silver.stackCount = amount;
+            if (!MainContainer.TryAdd(silver))
+                silver.Destroy();
+            totalSold += amount;
+        }
+
         public float GetSingleItemPrice(Thing goods)
         {
             if (goods != null)
@@ -161,8 +177,7 @@ namespace HospitalityCasino
             {
                 return "HospitalityCasino_VendingMachineContains".Translate() + ((float)Content).ToStringMoney("F0") +
                        "\n"
-                       + "HospitalityCasino_VendingMachineTotal".Translate() + ((float)totalSold).ToStringMoney("F0")
-                       +"\n";
+                       + "HospitalityCasino_VendingMachineTotal".Translate() + ((float)totalSold).ToStringMoney("F0");
             }
             else
             {

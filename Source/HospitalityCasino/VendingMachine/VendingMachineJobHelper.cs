@@ -34,43 +34,29 @@ namespace HospitalityCasino
 
         public static bool CanPawnAffordThis(Pawn pawn, Thing vendingMachine)
         {
-	        if (pawn.IsTeetotaler()) return false;
-	        Trait drugDesire = pawn.story.traits.GetTrait(TraitDefOf.DrugDesire);
-	        if (drugDesire is { Degree: > 0 }) return true;
-	        CompVendingMachine compVendingMachine = vendingMachine.TryGetComp<CompVendingMachine>();
-	        //SlotMachineComp comp = vendingMachine.TryGetComp<SlotMachineComp>();
-	        if (compVendingMachine != null)
-	        {
-		        if (CheckIfShouldPay(pawn, vendingMachine))
-		        {
-			        if (CountSilver(pawn) < compVendingMachine.GetSingleItemPrice(null) * Rand.RangeSeeded(1,10, pawn.thingIDNumber))
-			        {
-				        Log.Message("Pawn wanted to play, but could not afford it");
-				        return false;
-			        }
-		        }
-	        }
-
-	        return true;
+            // Payment is handled inside InsertCoin: taken if available, skipped if not.
+            // No upfront silver check needed — all pawns are allowed to play.
+            return true;
         }
 
 		public static bool InsertCoin(Pawn pawn, Thing vendingMachineParent)
 		{
 			CompVendingMachine vendingMachine = vendingMachineParent.TryGetComp<CompVendingMachine>();
-			SlotMachineComp comp = vendingMachineParent.TryGetComp<SlotMachineComp>();
 			if (vendingMachine != null && CheckIfShouldPay(pawn, vendingMachineParent))
 			{
 				var cash = pawn.inventory.innerContainer?.FirstOrDefault(t => t?.def == ThingDefOf.Silver);
-				if (cash != null && cash.stackCount >= vendingMachine.GetSingleItemPrice(null)){
-					//comp.TotalRevenue += vendingMachine.CurrentPrice;
+				if (cash != null && cash.stackCount >= vendingMachine.GetSingleItemPrice(null))
+				{
+					// Visitor carries silver — take it from their inventory as normal
 					vendingMachine.ReceivePayment(pawn.inventory.innerContainer, cash, null, 1);
-					// TODO - below sound is also played when a poker game is started, which is weird
-					MyDefs.Coin.PlayOneShot(SoundInfo.InMap(pawn));
 				}
 				else
 				{
-					return false;
+					// Visitor has no silver — generate the revenue directly so the
+					// machine always profits from play regardless of visitor wealth
+					vendingMachine.ReceiveVirtualPayment();
 				}
+				MyDefs.Coin.PlayOneShot(SoundInfo.InMap(pawn));
 			}
 			return true;
 		}

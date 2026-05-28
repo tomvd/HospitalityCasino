@@ -2,6 +2,7 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace HospitalityCasino
 {
@@ -28,6 +29,8 @@ namespace HospitalityCasino
 		public static ThoughtDef GenerousSlotmachine;
 		public static ThoughtDef RiggedSlotmachine;
 		public static JobDef HospitalityCasino_EmptyVendingMachine;
+		public static DutyDef CasinoVisitor;
+		public static JobDef Play_SlotMachine;
 	}
 	
 	[StaticConstructorOnStartup]

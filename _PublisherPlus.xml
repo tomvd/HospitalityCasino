@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+  <Excluded>
+    <exclude>.git</exclude>
+    <exclude>.vscode</exclude>
+    <exclude>1.4\Assemblies\Assembly-CSharp.dll</exclude>
+    <exclude>1.4\Assemblies\Assembly-CSharp.pdb</exclude>
+    <exclude>1.4\Assemblies\HospitalityCasino.pdb</exclude>
+    <exclude>README</exclude>
+    <exclude>Source</exclude>
+  </Excluded>
+</Configuration>

@@ -20,7 +20,7 @@ namespace HospitalityCasino
 			Toil toil = new Toil();
 			toil.initAction = delegate
 			{
-				job.locomotionUrgency = LocomotionUrgency.Walk;
+				job.locomotionUrgency = LocomotionUrgency.Jog;
 				TargetThingA.TryGetComp<SlotMachineComp>().eventManager.gameStarted = false;
 				TargetThingA.TryGetComp<SlotMachineComp>().eventManager.gamesPlayed = 0;
 			};
@@ -54,10 +54,20 @@ namespace HospitalityCasino
 							JoyUtility.JoyTickCheckEnd(pawn, 1, JoyTickFullJoyAction.EndJob, 1.0f, (Building)TargetThingA);
 							return;
 						}
-						if ((comp.eventManager.gamesPlayed > 3 && (Rand.Chance(0.1f)) || pawn.needs.joy.CurLevel > 0.9f))
+						float joyLevel = pawn.needs?.joy?.CurLevel ?? 0f;
+						// Joy-less pawns (no joy need) rely solely on the 10% random quit,
+						// which gives ~13 expected games. Hard-cap at 5 so they don't
+						// monopolise a machine for the entire session.
+						if (pawn.needs?.joy == null && comp.eventManager.gamesPlayed > 5)
+						{
+							comp.eventManager.EndGame();
+							EndJobWith(JobCondition.Succeeded);
+							return;
+						}
+						if ((comp.eventManager.gamesPlayed > 3 && Rand.Chance(0.1f)) || joyLevel > 0.9f)
 						{
 							// pawn has a 10% chance to stop after 3 games, or if he has had enough joy, unless he is an addict
-							Trait drugDesire = pawn.story.traits.GetTrait(TraitDefOf.DrugDesire);
+							Trait drugDesire = pawn.story?.traits.GetTrait(TraitDefOf.DrugDesire);
 							if (drugDesire == null || drugDesire.Degree == 0)
 							{
 								comp.eventManager.EndGame();
@@ -87,17 +97,17 @@ namespace HospitalityCasino
 						comp.eventManager.gameStarted = false;
 						if (comp.eventManager.outcome == SlotGameOutcome.Single)
 						{
-							int silverRewarded = 2 * comp.Properties.type+1;
+							int silverRewarded = 2 * (comp.Properties.type + 1);
 							if (VendingMachineJobHelper.CheckIfShouldPay(pawn, TargetThingA))
 							{
 								comp.TotalPayout += silverRewarded;
 								VendingMachineJobHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 							}
-							extraJoy += 0.2f * comp.Properties.type+1;
+							extraJoy += 0.2f * (comp.Properties.type + 1);
 						}								
 						if (comp.eventManager.outcome == SlotGameOutcome.Double)
 						{
-							int silverRewarded = (2 * comp.Properties.type+1)*2;
+							int silverRewarded = 2 * (comp.Properties.type + 1) * 2;
 							if (silverRewarded > 0)
 							{
 								if (VendingMachineJobHelper.CheckIfShouldPay(pawn, TargetThingA))
@@ -106,15 +116,15 @@ namespace HospitalityCasino
 									VendingMachineJobHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 								}
 							}
-							extraJoy += 0.5f * comp.Properties.type+1;
+							extraJoy += 0.5f * (comp.Properties.type + 1);
 						}							
 						if (comp.eventManager.outcome == SlotGameOutcome.Jackpot)
 						{
 							MyDefs.MapOnlyTinyBell.PlayOneShot(SoundInfo.InMap(pawn));
 							
-							int silverRewarded = (2 * comp.Properties.type+1)*5;
+							int silverRewarded = 2 * (comp.Properties.type + 1) * 5;
 							if (comp.eventManager.slotType==0) {
-								pawn.needs.mood.thoughts.memories.TryGainMemory(MyDefs.HC_WonSlotMachineGame);
+								pawn.needs?.mood?.thoughts.memories.TryGainMemory(MyDefs.HC_WonSlotMachineGame);
 								extraJoy += 1f;
 							}
 							if (silverRewarded > 0)
@@ -124,7 +134,7 @@ namespace HospitalityCasino
 									comp.TotalPayout += silverRewarded;
 									VendingMachineJobHelper.GiveRewardToPawn(pawn, silverRewarded, pawn.Faction != TargetThingA.Faction, ThingDefOf.Silver, vendingMachine);
 								}
-								extraJoy += 2f * comp.Properties.type+1;
+								extraJoy += 2f * (comp.Properties.type + 1);
 							}
 						}	
 						//Log.Message(" revenue=" + comp.TotalRevenue);
@@ -153,11 +163,11 @@ namespace HospitalityCasino
 					// guests gain thoughts about non-default settings of slot machines
 					if (TargetThingA.TryGetComp<CompVendingMachine>().Pricing == 3)
 					{
-						toil.actor.needs.mood.thoughts.memories.TryGainMemory(MyDefs.RiggedSlotmachine);
+						toil.actor.needs?.mood?.thoughts.memories.TryGainMemory(MyDefs.RiggedSlotmachine);
 					}
 					else if (TargetThingA.TryGetComp<CompVendingMachine>().Pricing == 1)
 					{
-						toil.actor.needs.mood.thoughts.memories.TryGainMemory(MyDefs.GenerousSlotmachine);
+						toil.actor.needs?.mood?.thoughts.memories.TryGainMemory(MyDefs.GenerousSlotmachine);
 					}
 				}
 			});
@@ -166,22 +176,11 @@ namespace HospitalityCasino
 
 		public override object[] TaleParameters()
 		{
-			return new object[]
-			{
+			return
+			[
 				pawn,
 				TargetA.Thing.def
-			};
-		}
-	}
-	
-	public class JoyGiver_PlaySlotMachine : JoyGiver_InteractBuildingInteractionCell
-	{
-		public override bool CanDoDuringGathering => true;
-
-		public override Job TryGivePlayJob(Pawn pawn, Thing t)
-		{
-			if (!VendingMachineJobHelper.CanPawnAffordThis(pawn, t)) return null;
-			return JobMaker.MakeJob(def.jobDef, t);
+			];
 		}
 	}
 }
