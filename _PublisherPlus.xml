@@ -2,10 +2,9 @@
 <Configuration>
   <Excluded>
     <exclude>.git</exclude>
+    <exclude>.idea</exclude>
     <exclude>.vscode</exclude>
-    <exclude>1.4\Assemblies\Assembly-CSharp.dll</exclude>
-    <exclude>1.4\Assemblies\Assembly-CSharp.pdb</exclude>
-    <exclude>1.4\Assemblies\HospitalityCasino.pdb</exclude>
+    <exclude>HospitalityCasino.slnx</exclude>
     <exclude>README</exclude>
     <exclude>Source</exclude>
   </Excluded>

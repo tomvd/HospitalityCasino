@@ -8,8 +8,7 @@ namespace HospitalityCasino;
 
 /// <summary>
 /// Injected into the humanlike think tree via ThinkTreeDef (tag: Humanlike_PostMentalState).
-/// Fires for every humanlike pawn; the guards inside TryGiveJob restrict it to
-/// friendly non-colonist visitors who are the "gambler type".
+/// Fires for every humanlike pawn; restricted to active LordJob_CasinoVisit pawns only.
 /// </summary>
 public class JobGiver_PlaySlotMachines : ThinkNode_JobGiver
 {
@@ -35,15 +34,23 @@ public class JobGiver_PlaySlotMachines : ThinkNode_JobGiver
         var lordJob = pawn.GetLord()?.LordJob;
         if (lordJob?.GetType().FullName.StartsWith("Hospitality.") == true) return null;
 
-        // Casino-incident visitors came specifically to play — skip the gambler gate.
-        // For everyone else, ~50% are the "gambler type" (stable per pawn).
-        bool isCasinoVisitor = pawn.GetLord()?.LordJob is LordJob_CasinoVisit;
-        if (!isCasinoVisitor && !Rand.ChanceSeeded(0.5f, pawn.thingIDNumber)) return null;
+        // Don't pull ANY visitor away from an exit toil — this caused casino visitors to turn
+        // around at the map edge and loop back to play more slots indefinitely.
+        if (pawn.GetLord()?.CurLordToil is LordToil_ExitMap) return null;
 
-        // --- Guard 4: ~40% chance to want to play RIGHT NOW (changes every ~1 000 ticks
-        //              so the same gambler occasionally wanders rather than looping forever).
-        //              Casino visitors always want to play; skip this gate for them too. ---
-        if (!isCasinoVisitor && !Rand.ChanceSeeded(0.4f, pawn.thingIDNumber ^ (GenTicks.TicksGame >> 10))) return null;
+        bool isCasinoVisitor = lordJob is LordJob_CasinoVisit;
+
+        if (!isCasinoVisitor)
+        {
+            // ~50% of non-casino visitors are the "gambler type" (stable per pawn).
+            if (!Rand.ChanceSeeded(0.5f, pawn.thingIDNumber)) return null;
+            // ~30% chance to want to play right now (reseeds every ~1 000 ticks).
+            if (!Rand.ChanceSeeded(0.3f, pawn.thingIDNumber ^ (GenTicks.TicksGame >> 10))) return null;
+            // Don't play when hungry or tired — the job giver fires at PostMentalState priority,
+            // which is above need-satisfaction in the think tree, so we guard here instead.
+            if (pawn.needs?.food?.CurLevel < 0.4f) return null;
+            if (pawn.needs?.rest?.CurLevel < 0.3f) return null;
+        }
 
         // --- Find the nearest reachable, unreserved slot machine ---
         var available = pawn.Map.listerBuildings.allBuildingsColonist
