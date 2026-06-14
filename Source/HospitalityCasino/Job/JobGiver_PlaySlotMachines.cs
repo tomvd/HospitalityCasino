@@ -30,6 +30,12 @@ public class JobGiver_PlaySlotMachines : ThinkNode_JobGiver
         if (pawn.IsColonist || pawn.IsPrisoner) return null;
         if (!pawn.Spawned) return null;
 
+        // --- Guard 1b: don't pull patients away from medical care (downed, bedridden, or
+        // suffering from any injury/infection that needs tending) ---
+        if (pawn.Downed) return null;
+        if (pawn.InBed()) return null;
+        if (pawn.health?.hediffSet?.HasTendableHediff() == true) return null;
+
         // --- Guard 2: skip Hospitality mod guests (they gamble via their own joy system) ---
         var lordJob = pawn.GetLord()?.LordJob;
         if (lordJob?.GetType().FullName.StartsWith("Hospitality.") == true) return null;
