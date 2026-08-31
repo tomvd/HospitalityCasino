@@ -15,6 +15,7 @@ namespace HospitalityCasino
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
+            if (!(t is Building)) return false;
             var vendingMachine = t.TryGetComp<CompVendingMachine>();
             if (vendingMachine == null || !vendingMachine.ShouldBeEmptied()) return false;
             if (!pawn.CanReserve(t, 1, 1)) return false;
