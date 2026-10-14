@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_ReelBlurA</defName>
+    <graphicData>
+      <texPath>Things/Special/Mote_ReelBlurA</texPath>
+      <drawSize>0.25</drawSize>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <solidTime>10</solidTime>
+      <fadeOutTime>4</fadeOutTime>
+      <landSound>StoneImpact</landSound>
+    </mote>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_ReelBlurB</defName>
+    <graphicData>
+      <texPath>Things/Special/Mote_ReelBlurB</texPath>
+      <drawSize>0.25</drawSize>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <solidTime>10</solidTime>
+      <fadeOutTime>4</fadeOutTime>
+      <landSound>StoneImpact</landSound>
+    </mote>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_ReelBlurC</defName>
+    <graphicData>
+      <texPath>Things/Special/Mote_ReelBlurC</texPath>
+      <drawSize>0.25</drawSize>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <solidTime>10</solidTime>
+      <fadeOutTime>4</fadeOutTime>
+      <landSound>StoneImpact</landSound>
+    </mote>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_ReelOutcomeSeven</defName>
+    <graphicData>
+      <texPath>Things/Special/Mote_ReelOutcomeSeven</texPath>
+      <drawSize>0.25</drawSize>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <solidTime>10</solidTime>
+      <fadeOutTime>4</fadeOutTime>
+      <landSound>StoneImpact</landSound>
+    </mote>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_ReelOutcomeFruit</defName>
+    <graphicData>
+      <texPath>Things/Special/Mote_ReelOutcomeFruit</texPath>
+      <drawSize>0.25</drawSize>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <solidTime>10</solidTime>
+      <fadeOutTime>4</fadeOutTime>
+      <landSound>StoneImpact</landSound>
+    </mote>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_ReelOutcomeBar</defName>
+    <graphicData>
+      <texPath>Things/Special/Mote_ReelOutcomeBar</texPath>
+      <drawSize>0.25</drawSize>
+    </graphicData>
+    <altitudeLayer>Projectile</altitudeLayer>
+    <mote>
+      <solidTime>10</solidTime>
+      <fadeOutTime>4</fadeOutTime>
+      <landSound>StoneImpact</landSound>
+    </mote>
+  </ThingDef>  
+</Defs>

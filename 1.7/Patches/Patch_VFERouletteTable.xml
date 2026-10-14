@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Add /comps/li/compClass if there are no comps yet. -->
+<!-- Add /li/compClass to /comps if exists (i.e. other mod already added the comps field first) -->
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Vanilla Furniture Expanded</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <operations>
+                <li Class="PatchOperationConditional">
+                    <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]/comps</xpath>
+                    <nomatch Class="PatchOperationAdd">
+                        <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]</xpath>
+                        <value>
+                            <comps>
+                                <li Class="HospitalityCasino.CompProperties_VendingMachine">
+                                    <compClass>HospitalityCasino.CompVendingMachine</compClass>
+                                    <defaultPrice>10</defaultPrice>
+                                    <noToggle>true</noToggle>
+                                </li>
+                            </comps>
+                        </value>
+                    </nomatch>
+                    <match Class="PatchOperationAdd">
+                        <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]/comps</xpath>
+                        <value>
+                            <li Class="HospitalityCasino.CompProperties_VendingMachine">
+                                <compClass>HospitalityCasino.CompVendingMachine</compClass>
+                                <defaultPrice>10</defaultPrice>
+                                <noToggle>true</noToggle>
+                            </li>
+                        </value>
+                    </match>
+                </li>
+            <li Class="PatchOperationReplace">
+                <xpath>Defs/ThingDef[defName="Joy_RouletteTable"]/building/joyKind/text()</xpath>
+                <value>Gamble</value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>Defs/JoyGiverDef[defName="Play_Roulette"]/joyKind/text()</xpath>
+                <value>Gamble</value>
+            </li>                
+            <li Class="PatchOperationReplace">
+                <xpath>Defs/JobDef[defName="Play_Roulette"]/joyKind/text()</xpath>
+                <value>Gamble</value>
+            </li>                
+            <li Class="PatchOperationReplace">
+                <xpath>Defs/JobDef[defName="Play_Roulette"]/driverClass/text()</xpath>
+                <value>HospitalityCasino.JobDriver_PlayRouletteForMoney</value>
+            </li>
+            </operations>
+        </match>
+    </Operation>
+</Patch>

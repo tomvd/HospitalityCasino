@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <JobDef>
+    <defName>Play_SlotMachine</defName>
+    <driverClass>HospitalityCasino.JobDriver_PlaySlotMachine</driverClass>
+    <reportString>Playing the slot machine.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>1</joyMaxParticipants>
+    <joyKind>Gamble</joyKind>
+    <taleOnCompletion>PlayedGame</taleOnCompletion>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+  <JobDef>
+    <defName>HospitalityCasino_EmptyVendingMachine</defName>
+    <driverClass>HospitalityCasino.JobDriver_EmptyVendingMachine</driverClass>
+    <reportString>Emptying slot machine.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+  <WorkGiverDef>
+    <defName>HospitalityCasino_WithdrawVendingMachineEarnings</defName>
+    <label>empty slot machine</label>
+    <giverClass>HospitalityCasino.WorkGiver_EmptyVendingMachine</giverClass>
+    <workType>Hauling</workType>
+    <priorityInType>18</priorityInType>
+    <verb>empty slot machine</verb>
+    <gerund>emptying slot machine</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>  
+</Defs>

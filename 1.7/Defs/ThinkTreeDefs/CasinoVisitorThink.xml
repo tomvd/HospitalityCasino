@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Injects JobGiver_PlaySlotMachines into the humanlike think tree for every pawn.
+       All filtering (friendly visitor, gambler type, cooldown, Hospitality compat)
+       is done inside TryGiveJob, so colonists and hostile pawns are unaffected. -->
+  <ThinkTreeDef>
+    <defName>HC_SlotMachineVisitor</defName>
+    <insertTag>Humanlike_PostMentalState</insertTag>
+    <thinkRoot Class="HospitalityCasino.JobGiver_PlaySlotMachines" />
+  </ThinkTreeDef>
+</Defs>

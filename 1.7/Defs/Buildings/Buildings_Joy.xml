@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <ThingDef Name="HC_SlotMachineBase" ParentName="BuildingBase" Abstract="True">
+    <castEdgeShadows>true</castEdgeShadows>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <canOverlapZones>false</canOverlapZones>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <placeWorkers>
+        <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <rotatable>true</rotatable>
+    <!--<fillPercent>0.40</fillPercent> -->
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,1)</interactionCellOffset>
+    <!--<surfaceType>Item</surfaceType>-->
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <socialPropernessMatters>true</socialPropernessMatters>  
+    <thingCategories>
+        <li>BuildingsJoy</li>
+      </thingCategories>
+      <building>
+        <joyKind>Gamble</joyKind>
+      </building>
+      <costList>
+        <Steel>80</Steel>
+        <ComponentIndustrial>5</ComponentIndustrial>
+      </costList>
+      <statBases>
+        <MaxHitPoints>450</MaxHitPoints>
+        <WorkToBuild>10000</WorkToBuild>
+        <Mass>10</Mass>
+        <Flammability>1.0</Flammability>
+        <JoyGainFactor>1.3</JoyGainFactor>
+        <MarketValue>1250</MarketValue>
+      </statBases>
+      <designationCategory>Joy</designationCategory>      
+      <researchPrerequisites>
+        <li>MicroelectronicsBasics</li>
+      </researchPrerequisites>
+      <constructionSkillPrerequisite>7</constructionSkillPrerequisite>      
+  </ThingDef>
+
+  <ThingDef ParentName="HC_SlotMachineBase">
+    <defName>HC_SlotMachineRed</defName>
+    <label>Rim n Reels</label>
+    <description>Classic slots, default stake is only 2$, perfect for beginners.</description>
+    <graphicData>
+        <texPath>Things/Building/SlotMachineRed</texPath>
+        <graphicClass>Graphic_Multi</graphicClass>
+        <damageData>
+          <rect>(0.05,0.1,0.9,0.9)</rect>
+          <cornerTL>Damage/Corner</cornerTL>
+          <cornerTR>Damage/Corner</cornerTR>		
+        </damageData>
+          <drawSize>(2.3,2.3)</drawSize>
+      </graphicData>
+    <uiIconPath>UI/Icons/SlotMachineRed</uiIconPath>
+      <statBases>
+          <JoyGainFactor>1.3</JoyGainFactor>
+          <MarketValue>1250</MarketValue>
+      </statBases>      
+    <comps>
+        <li Class="CompProperties_Power">
+            <compClass>CompPowerTrader</compClass>
+            <basePowerConsumption>120</basePowerConsumption>
+        </li>
+        <li Class="CompProperties_Glower">
+            <glowRadius>3</glowRadius>
+            <glowColor>(200, 100, 100)</glowColor>
+        </li>
+        <li Class="CompProperties_Flickable"/>
+        <li Class="CompProperties_Breakdownable"/>
+        <li Class="HospitalityCasino.CompProperties_SlotMachine">
+          <compClass>HospitalityCasino.SlotMachineComp</compClass>
+          <type>0</type>
+      </li>
+        <li Class="HospitalityCasino.CompProperties_VendingMachine">
+          <compClass>HospitalityCasino.CompVendingMachine</compClass>
+          <defaultPrice>2</defaultPrice>
+          <noToggle>true</noToggle>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HC_SlotMachineBase">
+    <defName>HC_SlotMachineGreen</defName>
+    <label>Rima Moolah</label>
+    <description>Medium priced slots, default stake is 4$.</description>
+    <graphicData>
+        <texPath>Things/Building/SlotMachineGreen</texPath>
+        <graphicClass>Graphic_Multi</graphicClass>
+        <damageData>
+          <rect>(0.05,0.1,0.9,0.9)</rect>
+          <cornerTL>Damage/Corner</cornerTL>
+          <cornerTR>Damage/Corner</cornerTR>		
+        </damageData>
+          <drawSize>(2.3,2.3)</drawSize>
+      </graphicData>    
+    <uiIconPath>UI/Icons/SlotMachineGreen</uiIconPath>
+      <statBases>
+          <JoyGainFactor>1.4</JoyGainFactor>
+          <MarketValue>1500</MarketValue>
+      </statBases>
+      <comps>
+        <li Class="CompProperties_Power">
+            <compClass>CompPowerTrader</compClass>
+            <basePowerConsumption>125</basePowerConsumption>
+        </li>
+        <li Class="CompProperties_Glower">
+            <glowRadius>3</glowRadius>
+            <glowColor>(50, 200, 50)</glowColor>
+        </li>
+        <li Class="CompProperties_Flickable"/>
+        <li Class="CompProperties_Breakdownable"/>
+        <li Class="HospitalityCasino.CompProperties_SlotMachine">
+          <compClass>HospitalityCasino.SlotMachineComp</compClass>
+          <type>1</type>
+      </li>
+        <li Class="HospitalityCasino.CompProperties_VendingMachine">
+          <compClass>HospitalityCasino.CompVendingMachine</compClass>
+          <defaultPrice>4</defaultPrice>
+          <noToggle>true</noToggle>
+      </li>
+    </comps>
+  </ThingDef>  
+
+  <ThingDef ParentName="HC_SlotMachineBase">
+    <defName>HC_SlotMachineBlue</defName>
+    <label>Rim of Fortune</label>
+    <description>High stake slots, default stake is 6$.</description>
+    <graphicData>
+        <texPath>Things/Building/SlotMachineBlue</texPath>
+        <graphicClass>Graphic_Multi</graphicClass>
+        <damageData>
+          <rect>(0.05,0.1,0.9,0.9)</rect>
+          <cornerTL>Damage/Corner</cornerTL>
+          <cornerTR>Damage/Corner</cornerTR>		
+        </damageData>
+          <drawSize>(2.3,2.3)</drawSize>
+      </graphicData>        
+      <uiIconPath>UI/Icons/SlotMachineBlue</uiIconPath>
+      <statBases>
+          <JoyGainFactor>1.4</JoyGainFactor>
+          <MarketValue>1750</MarketValue>
+      </statBases>
+      
+    <comps>
+        <li Class="CompProperties_Power">
+            <compClass>CompPowerTrader</compClass>
+            <basePowerConsumption>130</basePowerConsumption>
+        </li>
+        <li Class="CompProperties_Glower">
+            <glowRadius>3</glowRadius>
+            <glowColor>(50, 50, 200)</glowColor>
+        </li>
+        <li Class="CompProperties_Flickable"/>
+        <li Class="CompProperties_Breakdownable"/>
+        <li Class="HospitalityCasino.CompProperties_SlotMachine">
+          <compClass>HospitalityCasino.SlotMachineComp</compClass>
+          <type>2</type>
+      </li>
+        <li Class="HospitalityCasino.CompProperties_VendingMachine">
+          <compClass>HospitalityCasino.CompVendingMachine</compClass>
+          <defaultPrice>6</defaultPrice>
+          <noToggle>true</noToggle>
+      </li>
+    </comps>
+  </ThingDef>    
+  
+</Defs>

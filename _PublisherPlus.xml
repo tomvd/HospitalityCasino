@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Configuration>
   <Excluded>
+    <exclude>.claude</exclude>
     <exclude>.git</exclude>
     <exclude>.idea</exclude>
     <exclude>.vscode</exclude>
     <exclude>HospitalityCasino.slnx</exclude>
     <exclude>README</exclude>
     <exclude>Source</exclude>
+    <exclude>Textures\UI\Commands\PSDs</exclude>
   </Excluded>
 </Configuration>
